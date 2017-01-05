@@ -77,6 +77,7 @@ module QuickBlox
           when 200
 
           else
+            response = JSON.parse(response)
             raise QuickBlox::Exceptions::Response, response['errors']
         end
       }

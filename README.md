@@ -1,8 +1,6 @@
 # QuickBlox
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/quick_blox`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Quickblox ruby interface.
 
 ## Installation
 
@@ -22,13 +20,49 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+#### Configuration
 
-## Development
+```ruby
+QuickBlox.configure do |config|
+  config.host = ENV['QUICKBLOX_HOST']
+  config.application_id = ENV['QUICKBLOX_APPLICATION_ID']
+  config.auth_key = ENV['QUICKBLOX_AUTH_KEY']
+  config.auth_secret = ENV['QUICKBLOX_AUTH_SECRET']
+end
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+#### Session
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+  session = QuickBlox::Session.new 
+  
+  #<QuickBlox::Session:0x007f3078130b28 @_id="586df8dda0eb474700000018", @application_id=51120, @created_at="2017-01-05T07:42:21Z", @device_id=0, @nonce=1483176794, @token="bcc14b44d428cdab14a0614a1b3d9603b700c7b0", @ts=1483602140, @updated_at="2017-01-05T07:42:21Z", @user_id=0, @id=22488> 
+
+  
+  session.info 
+  session.destroy
+```
+
+#### Users
+
+```ruby
+
+   user = QuickBlox::User.create session, login: 'test_user', password: 'secretpassword'
+   #<QuickBlox::User:0x00000006c02d48 @id=22433881, @owner_id=64395, @full_name=nil, @email=nil, @login="test_user", @phone=nil, @website=nil, @created_at="2017-01-05T07:46:22Z", @updated_at="2017-01-05T07:46:22Z", @last_request_at=nil, @external_user_id=nil, @facebook_id=nil, @twitter_id=nil, @blob_id=nil, @custom_data=nil, @twitter_digits_id=nil, @user_tags=nil> 
+
+   user = QuickBlox::User.show session, user.id
+  
+  session.info 
+  session.destroy
+```
+
+#### User Session
+
+```ruby
+
+   user_session = QuickBlox::UserSession.new session, login: 'test_user', password: 'secretpassword' # upgrade to user session
+   user_session.destroy # downgrade to application session
+```
 
 ## Contributing
 
