@@ -21,7 +21,6 @@ module QuickBlox
           }
       ){ |response, request, result|
         response = JSON.parse(response)
-
         case result.code.to_i
           when 200, 201, 202
             user = QuickBlox::User.new
@@ -42,6 +41,26 @@ module QuickBlox
               'Content-Type': 'application/json',
               'QuickBlox-REST-API-Version': QuickBlox.configuration.api_version,
               'QB-Token': application_session.token
+          }
+      ){ |response, request, result|
+        case result.code.to_i
+          when 200
+
+          else
+            response = JSON.parse(response)
+            raise QuickBlox::Exceptions::Response, response['errors']
+        end
+      }
+    end
+
+    def self.destroy_by_token(token)
+      RestClient::Request.execute(
+          method: :delete,
+          url: "#{ QuickBlox.configuration.host }/login.json",
+          headers: {
+              'Content-Type': 'application/json',
+              'QuickBlox-REST-API-Version': QuickBlox.configuration.api_version,
+              'QB-Token': token
           }
       ){ |response, request, result|
         case result.code.to_i

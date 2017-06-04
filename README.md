@@ -62,6 +62,10 @@ end
 
    user_session = QuickBlox::UserSession.new session, login: 'test_user', password: 'secretpassword' # upgrade to user session
    user_session.destroy # downgrade to application session
+   
+   or 
+   
+   QuickBlox::UserSession.destroy_by_token('previously stored token')
 ```
 
 ## Contributing
