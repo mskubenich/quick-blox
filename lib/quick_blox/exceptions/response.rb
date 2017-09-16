@@ -10,7 +10,7 @@ module QuickBlox
       def to_s
         result_message = []
         @messages.each do |k,v|
-          v.each do |message|
+          v.to_a.each do |message|
             result_message << "QB: #{ k }: #{ message }"
           end
         end
