@@ -2,8 +2,11 @@ module QuickBlox
   class UserSession < Session
 
     attr_accessor :user
+    attr_accessor :session
 
-    def self.new(application_session, options={})
+    def initialize(application_session, options={})
+
+      self.session = application_session
 
       raise QuickBlox::Exceptions::MissingConfiguration unless QuickBlox.configuration
 
